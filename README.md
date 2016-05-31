@@ -2,6 +2,6 @@
 
 ```
 Crontab
-* * * * * timeout 20 /root/report/fail.sh >/dev/null 2>&1
-* * * * * ( sleep 30 ; timeout 20 /root/report/fail.sh >/dev/null 2>&1 )
+* * * * * timeout 10 /root/report/failover-nginx-root.sh >/dev/null 2>&1
+* * * * * ( sleep 15 ; timeout 10 /root/report/failover-nginx-root.sh >/dev/null 2>&1 )
 ```

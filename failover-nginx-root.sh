@@ -6,7 +6,7 @@ df -P -T /storage-pool/nfs-1 | tail -n +2 | awk '{print $2}' | grep nfs | wc -l 
 df -P -T /storage-pool/nfs-2 | tail -n +2 | awk '{print $2}' | grep nfs | wc -l > /root/status/nfs-2
 
 #give time to fetch nfs content
-sleep 10
+sleep 5
 
 CHECK_FILE_1=`cat /root/status/nfs-1`
 CHECK_FILE_2=`cat /root/status/nfs-2`
@@ -30,6 +30,11 @@ elif [ $CHECK_FILE_2 -ne 1 ] && [ $CHECK_NGINX_2 -eq 1 ] && [ $CHECK_FILE_1 -eq 
         nginx -t && echo 'move to nfs-1'
         nginx -s reload
 	bash /root/report/slack.sh $TO REPORT 'Nginx root changed to nfs-1'
+
+elif [ $CHECK_FILE_1 -ne 1 ] && [ $CHECK_FILE_2 -ne 1 ]
+        then
+        echo 'All nfs-server down'
+        bash /root/report/slack.sh $TO REPORT 'All nfs-server down'
 
 else
 	echo 'OK'
